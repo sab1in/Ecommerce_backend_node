@@ -3,6 +3,44 @@ const User = require("../models/User");
 const CryptoJs = require("crypto-js");
 const jwt = require("jsonwebtoken");
 
+/**
+ * @swagger
+ * tags:
+ *  name: Auth
+ *  description: auth managing api
+ */
+
+/**
+ * @swagger
+ * /api/auth/register:
+ *  post:
+ *   tags: [Auth]
+ *   description: register a new user
+ *   parameters:
+ *    - name: body
+ *      in: body
+ *      description: user object
+ *      schema:
+ *       type: object
+ *       required: true
+ *       properties:
+ *        username:
+ *           type: string
+ *           required: true
+ *        email:
+ *           type: string
+ *           required: true
+ *        password:
+ *           type: string
+ *           required: true
+ *   responses:
+ *    '201':
+ *      description: user created
+ *    '400':
+ *      description: bad request
+ *    '500':
+ *      description: internal server error
+ */
 //REGISTER
 router.post("/register", async (req,res)=>{
     const newUser = new User({
@@ -19,6 +57,36 @@ router.post("/register", async (req,res)=>{
     }
 });
 
+
+/**
+ * @swagger
+ * /api/auth/login:
+ *  post:
+ *   tags: [Auth]
+ *   description: use to login
+ *   parameters:
+ *    - name: body
+ *      in: body
+ *      description: user object
+ *      required: true
+ *      schema:
+ *       type: object
+ *       required: true
+ *       properties:
+ *        username:
+ *           type: string
+ *           required: true
+ *        password:
+ *           type: string
+ *           required: true
+ *   responses:
+ *    '200':
+ *      description: login success
+ *    '400':
+ *      description: bad request
+ *    '500':
+ *      description: internal server error
+ */
 //Login
 router.post("/login", async (req,res)=>{
     try{
