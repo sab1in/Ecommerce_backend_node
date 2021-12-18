@@ -2,6 +2,42 @@ const router = require("express").Router();
 const User = require("../models/User");
 const {verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin} = require("./verifyToken")
 
+/**
+ * @swagger
+ * tags:
+ *  name: user
+ *  description: user managing api
+ */
+
+/**
+ * @swagger
+ * /api/user/{id}:
+ *  put:
+ *   tags: [user]
+ *   description: Use to get all books
+ *   parameters:
+ *   - name: id
+ *     in: path
+ *     description: id of the user
+ *     required: true
+ *     type: string
+ * 
+ *   - name: body
+ *     in: body
+ *     description: User object that needs to be added to the database
+ *     required: true
+ *     schema:      # Request body contents
+ *        type: object
+ *        properties:
+ *           username:
+ *             type: string
+ *           email:
+ *             type: string
+ *   responses:
+ *    '200':
+ *     description: A successful response
+ * 
+ */
 router.put("/:id", verifyToken, async (req,res)=>{
     if(req.body.password){
         req.body.password = CryptoJS.AES.encrypt(
@@ -24,6 +60,23 @@ router.put("/:id", verifyToken, async (req,res)=>{
     }
 })
 
+/**
+ * @swagger
+ * /api/user/{id}:
+ *  delete:
+ *   tags: [user]
+ *   description: Use to delete a selected user
+ *   parameters:
+ *   - name: id
+ *     in: path
+ *     description: id of the user
+ *     required: true
+ *     type: string
+ *     responses:
+ *      '200':
+ *       description: A successful response
+ * 
+ */
 //DELETE
 router.delete("/:id", verifyTokenAndAuthorization, async (req,res)=>{
     
@@ -35,6 +88,26 @@ router.delete("/:id", verifyTokenAndAuthorization, async (req,res)=>{
     }
 })
 
+
+/**
+ * @swagger
+ * /api/user/find/{id}:
+ *  get:
+ *   tags: [user]
+ *   description: Use to get all books
+ *   parameters:
+ *     - name: id
+ *       in: path
+ *       description: id of the user
+ *       required: true
+ *       schema:
+ *        type: string
+ *   responses:
+ *    '200':
+ *     description: A successful response
+ * 
+ */
+
 //GET USERS
 router.get("/find/:id", verifyTokenAndAdmin, async (req,res)=>{
     try{
@@ -45,6 +118,18 @@ router.get("/find/:id", verifyTokenAndAdmin, async (req,res)=>{
         res.status(500).json(err)
     }
 })
+
+/**
+ * @swagger
+ * /api/user:
+ *  get:
+ *   tags: [user]
+ *   description: Use to get all books
+ *   responses:
+ *    '200':
+ *     description: A successful response
+ * 
+ */
 
 //GET ALL USERS
 router.get("/", verifyTokenAndAdmin, async (req,res)=>{
@@ -58,8 +143,18 @@ router.get("/", verifyTokenAndAdmin, async (req,res)=>{
     }
 })
 
+/**
+ * @swagger
+ * /api/user/stats:
+ *  get:
+ *   tags: [stats]
+ *   description: Use to get all books
+ *   responses:
+ *    '200':
+ *     description: A successful response
+ * 
+ */
 //GET USER STATS
-
 router.get("/stats", verifyTokenAndAdmin, async (req,res)=>{
     const date = new Date();
     const lastYear = new Date(date.setFullYear(date.getFullYear()-1));
