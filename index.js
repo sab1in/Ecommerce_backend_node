@@ -43,7 +43,7 @@ const swaggerOptions = {
 
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
 console.log(swaggerDocs);
-app.use("/", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 /**
  * @swagger
  * components:
